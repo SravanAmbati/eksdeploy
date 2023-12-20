@@ -51,20 +51,21 @@ pipeline {
    
     // Uploading Docker images into AWS ECR
     stage('Pushing to ECR') {
-     steps{  
+      steps{  
          script {
                 sh 'aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 612394038250.dkr.ecr.ap-south-1.amazonaws.com'
                 sh 'docker push 612394038250.dkr.ecr.ap-south-1.amazonaws.com/my-ecr-repo:$BUILD_NUMBER'
          }
-        }
       }
-        stage ('Helm Deploy') {
-          steps {
-            script {
-                echo "Helm Deploy" 
-                //sh "helm upgrade first --install mychart --namespace helm-deployment --set image.tag=$BUILD_NUMBER"
-                }
-            }
-        }
     }
+    // Commented out the command which will deploy the application to eks cluster in the given namespace
+    stage ('Helm Deploy') {
+      steps {
+          script {
+              echo "Helm Deploy" 
+              //sh "helm upgrade first --install mychart --namespace helm-deployment --set image.tag=$BUILD_NUMBER"
+          }
+      }
+    }
+  }
 }
