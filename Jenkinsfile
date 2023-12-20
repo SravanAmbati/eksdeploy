@@ -18,6 +18,27 @@ pipeline {
             sh 'mvn clean install'           
             }
       }
+      // This block will check the code quality. Commenting this block as i have not created a sonar server to test
+      /*stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube Server') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+      }
+      stage('Quality Gate Check') {
+            steps {
+                script {
+                    def qualityGateStatus = waitForQualityGate() // Wait for the SonarQube analysis to complete and get the quality gate status
+                    
+                    if (qualityGateStatus != 'OK') {
+                        currentBuild.result = 'FAILURE'
+                        error "Quality Gate check failed: ${qualityGateStatus}"
+                    }
+                }
+            }
+        }*/
+
     // Building Docker images
     stage('Building image') {
       steps{
